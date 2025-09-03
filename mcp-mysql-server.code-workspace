@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "github.copilot.advanced": {
+      "mcp": {
+        "enabled": true,
+        "servers": {
+          "mysql": {
+            "command": "node",
+            "args": ["build/index.js"]
+          }
+        }
+      }
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "github.copilot",
+      "github.copilot-chat"
+    ]
+  }
+}

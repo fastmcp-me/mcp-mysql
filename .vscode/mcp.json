@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "mcp-mysql-server": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["build/index.js"]
+    }
+  }
+}

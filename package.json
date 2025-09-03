@@ -1,0 +1,39 @@
+{
+  "name": "mcp-mysql-server",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server for MySQL databases including AWS RDS",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "mcp-mysql-server": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "dev": "tsc && node build/index.js",
+    "test": "npm run build && node build/test.js",
+    "test-mcp": "npx @modelcontextprotocol/inspector node build/index.js",
+    "setup-vscode": "echo 'Add the configuration from VSCODE_SETUP.md to your VS Code settings.json'"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mysql",
+    "database",
+    "aws-rds"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "mysql2": "^3.11.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "files": [
+    "build/**/*",
+    "README.md"
+  ]
+}
