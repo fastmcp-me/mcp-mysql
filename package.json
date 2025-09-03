@@ -1,5 +1,5 @@
 {
-  "name": "mcp-mysql",
+  "name": "@sajithrw/mcp-mysql",
   "version": "1.0.0",
   "description": "Model Context Protocol server for MySQL databases including AWS RDS",
   "main": "build/index.js",
@@ -27,9 +27,16 @@
     "model-context-protocol",
     "mysql",
     "database",
-    "aws-rds"
+    "aws-rds",
+    "sql",
+    "typescript",
+    "ai-assistant",
+    "github-copilot",
+    "vscode",
+    "schema-introspection",
+    "query-execution"
   ],
-  "author": "Sajith Rathnayake <sajithrw>",
+  "author": "Sajith Rathnayake <sajithrw@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
@@ -41,7 +48,11 @@
     "typescript": "^5.5.0"
   },
   "files": [
-    "build/**/*",
-    "README.md"
+    "build/index.js",
+    "build/index.d.ts",
+    "build/index.js.map",
+    "build/index.d.ts.map",
+    "README.md",
+    "LICENSE"
   ]
 }

@@ -1,0 +1,31 @@
+# Source files (we only want the compiled build)
+src/
+tsconfig.json
+
+# Development files
+.env
+.env.example
+.env.local
+.env.production
+
+# Development tools and configs
+.vscode/
+.github/
+*.code-workspace
+
+# Test files
+src/test.ts
+build/test.*
+check-connection.js
+
+# Logs and temporary files
+*.log
+.DS_Store
+*.tgz
+*.tar.gz
+
+# Documentation that's not needed in the package
+VSCODE_SETUP.md
+
+# Lock files (npm will generate its own)
+package-lock.json

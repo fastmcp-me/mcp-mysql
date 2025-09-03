@@ -38,7 +38,7 @@ npm run build
 
 1. **Install the server globally:**
 ```bash
-npm install -g mcp-mysql
+npm install -g @sajithrw/mcp-mysql
 ```
 
 2. **Configure VS Code settings:**
@@ -122,7 +122,7 @@ Add the server to your Claude Desktop configuration:
 For testing and development:
 
 ```bash
-npx @modelcontextprotocol/inspector npx mcp-mysql
+npx @modelcontextprotocol/inspector npx @sajithrw/mcp-mysql
 ```
 
 ## Using with VS Code and GitHub Copilot
@@ -155,7 +155,7 @@ Once configured, you can use the MySQL MCP server with GitHub Copilot in VS Code
 
 2. **Install the server:**
    ```bash
-   npm install -g mcp-mysql
+   npm install -g @sajithrw/mcp-mysql
    ```
 
 3. **Configure connection:**
