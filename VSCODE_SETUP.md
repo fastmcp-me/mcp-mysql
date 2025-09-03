@@ -14,13 +14,13 @@ Choose one of these methods:
 
 **Option A: Global Installation (Recommended)**
 ```bash
-npm install -g mcp-mysql-server
+npm install -g mcp-mysql
 ```
 
 **Option B: Local Development**
 ```bash
-git clone <this-repository>
-cd mcp-mysql-server
+git clone https://github.com/sajithrw/mcp-mysql.git
+cd mcp-mysql
 npm install
 npm run build
 ```
@@ -36,7 +36,7 @@ Add this to your VS Code `settings.json`:
       "enabled": true,
       "servers": {
         "mysql": {
-          "command": "mcp-mysql-server"
+          "command": "mcp-mysql"
         }
       }
     }
@@ -53,7 +53,7 @@ Add this to your VS Code `settings.json`:
       "servers": {
         "mysql": {
           "command": "node",
-          "args": ["/full/path/to/mcp-mysql-server/build/index.js"]
+          "args": ["/full/path/to/mcp-mysql/build/index.js"]
         }
       }
     }

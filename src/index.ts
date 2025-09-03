@@ -32,7 +32,7 @@ class MySQLMCPServer {
   constructor() {
     this.server = new Server(
       {
-        name: "mcp-mysql-server",
+        name: "mcp-mysql",
         version: "1.0.0",
       },
       {
