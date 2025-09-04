@@ -2,150 +2,143 @@
 
 ## Prerequisites
 
-- VS Code with GitHub Copilot extension installed
-- Node.js 17+ installed
+- VS Code (latest) with GitHub Copilot extension (or another MCP-capable extension)
+- Node.js 18+ (LTS recommended)
 - Access to a MySQL database (local or cloud)
 
 ## Setup Steps
 
-### 1. Install the MCP MySQL Server
+### 1. Install (or Use via npx)
 
-Choose one of these methods:
+You can either rely on `npx` (no global install) or install globally.
 
-**Option A: Global Installation (Recommended)**
+**Option A: Use npx (no install)**
 ```bash
-npm install -g mcp-mysql
+npx @sajithrw/mcp-mysql@1.0.0 --help
 ```
 
-**Option B: Local Development**
+**Option B: Global install**
 ```bash
-git clone https://github.com/sajithrw/mcp-mysql.git
-cd mcp-mysql
-npm install
-npm run build
+npm install -g @sajithrw/mcp-mysql@1.0.0
 ```
 
-### 2. Configure VS Code
+### 2. Create `.vscode/mcp.json`
 
-Add this to your VS Code `settings.json`:
+Inside your project root (create the `.vscode` folder if missing):
 
-```json
+```jsonc
+// .vscode/mcp.json
 {
-  "github.copilot.advanced": {
-    "mcp": {
-      "enabled": true,
-      "servers": {
-        "mysql": {
-          "command": "mcp-mysql"
-        }
+  "servers": {
+    "mcp-mysql": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@sajithrw/mcp-mysql@1.0.0"
+      ],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "your_username",
+        "MYSQL_PASSWORD": "your_password",
+        "MYSQL_DATABASE": "your_database"
       }
     }
   }
 }
 ```
 
-**For local development, use:**
-```json
+> Put only non-sensitive defaults in `mcp.json`. For secrets, prefer your shell environment or a local `.env` (not committed) that your shell loads before launching VS Code.
+
+### Local Development Instead of Published Package
+
+If you're iterating on the repo locally:
+
+```jsonc
 {
-  "github.copilot.advanced": {
-    "mcp": {
-      "enabled": true,
-      "servers": {
-        "mysql": {
-          "command": "node",
-          "args": ["/full/path/to/mcp-mysql/build/index.js"]
-        }
+  "servers": {
+    "mcp-mysql": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/mcp-mysql/build/index.js"],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_USER": "your_username",
+        "MYSQL_PASSWORD": "your_password"
       }
     }
   }
 }
 ```
 
-### 3. Test the Setup
+### 3. Reload VS Code
 
-1. Open VS Code
-2. Open GitHub Copilot Chat (Ctrl/Cmd + Shift + I)
-3. Try asking: "Connect to my MySQL database and show me all tables"
+After creating or editing `mcp.json`: 
+- Open Command Palette → `Developer: Reload Window`.
 
-### 4. Connect to Your Database
+### 4. Start the MCP Server
 
-When Copilot needs to access your database, it will use the MCP server's `mysql_connect` tool. You can either:
+1. Command Palette → `MCP: Start Server`.
+2. Select `mcp-mysql`.
+3. Check the output/log panel for successful start (it should list available tools).
 
-**Option A: Use environment variables**
-Create a `.env` file in your project:
+### 5. Use in Copilot Chat
+
+Open Copilot Chat and try prompts like:
+- "List all databases"
+- "Describe the users table"
+- "Show indexes on orders"
+
+The MCP tools (e.g. `mysql_list_tables`, `mysql_query`) will be invoked behind the scenes.
+
+## Environment Variables
+
+Instead of (or in addition to) `env` in `mcp.json`, export variables in your shell profile:
+
 ```bash
-MYSQL_HOST=localhost
-MYSQL_USER=your_username
-MYSQL_PASSWORD=your_password
-MYSQL_DATABASE=your_database
+export MYSQL_HOST=localhost
+export MYSQL_PORT=3306
+export MYSQL_USER=your_username
+export MYSQL_PASSWORD=your_password
+export MYSQL_DATABASE=your_database
 ```
 
-**Option B: Provide connection details when prompted**
-Copilot will ask for connection details when needed.
+Restart VS Code (or your terminal) so the environment is inherited.
 
-## Example Conversations with Copilot
+## Updating the Server Version
 
-### Database Exploration
-- "Connect to my local MySQL database and list all tables"
-- "Show me the structure of the users table"
-- "What are the indexes on the products table?"
+When a new version is published, just bump the version in the `args` entry:
+```json
+"args": ["@sajithrw/mcp-mysql@1.0.1"]
+```
+Reload window and restart the MCP server.
 
-### Data Analysis
-- "Find all customers who placed orders in the last 30 days"
-- "Show me the top 10 best-selling products"
-- "Get table statistics for the orders table"
+## Deprecated: settings.json Approach
 
-### Schema Management
-- "List all databases on this MySQL server"
-- "Show me tables that contain the word 'user' in their name"
-- "Describe all tables in the inventory database"
+Previous documentation used `github.copilot.advanced.mcp` in `settings.json`. This project now recommends `mcp.json` discovery for clarity and simpler multi-server setups.
 
 ## Troubleshooting
 
-### Common Issues
+| Issue | Tips |
+|-------|------|
+| Server not listed | Ensure `mcp.json` path is `.vscode/mcp.json` and reloaded window. |
+| Fails to start | Run manually: `npx @sajithrw/mcp-mysql@1.0.0` to see errors. |
+| Auth/Access errors | Test credentials with `mysql` CLI or a GUI first. |
+| Timeouts | Check network / firewall; verify host and port. |
+| SSL needed | Set `MYSQL_SSL=true` in environment or pass via a future parameter (if implemented). |
 
-1. **"MCP server not found"**
-   - Check that the command path is correct in settings.json
-   - Verify the server is built: `npm run build`
-   - Try using absolute paths
+## Manual Testing with MCP Inspector
 
-2. **"Database connection failed"**
-   - Verify MySQL server is running
-   - Check connection credentials
-   - Ensure firewall allows connections
+```bash
+npx @modelcontextprotocol/inspector npx @sajithrw/mcp-mysql@1.0.0
+```
 
-3. **"Copilot not using MCP"**
-   - Restart VS Code after configuration changes
-   - Check GitHub Copilot extension is updated
-   - Verify MCP is enabled in settings
-
-### Debug Steps
-
-1. Test the MCP server directly:
-   ```bash
-   npx @modelcontextprotocol/inspector node build/index.js
-   ```
-
-2. Check VS Code Developer Console:
-   - Help > Toggle Developer Tools
-   - Look for MCP-related errors
-
-3. Verify settings:
-   - File > Preferences > Settings
-   - Search for "copilot mcp"
-   - Ensure it's enabled
+Then invoke tools from the Inspector UI.
 
 ## Next Steps
 
-Once everything is working:
+- Explore advanced queries through Copilot Chat.
+- Combine tool outputs with code generation in your workspace.
+- File issues or feature requests on GitHub.
 
-1. Try complex database queries through Copilot
-2. Use Copilot to help analyze your data
-3. Let Copilot help you write and optimize SQL queries
-4. Explore schema relationships and database structure
-
-## Support
-
-- Check the main [README.md](README.md) for detailed documentation
-- Test with MCP Inspector for debugging
-- Verify your MySQL connection separately first
+For more detail see the main [README.md](README.md).
